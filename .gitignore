@@ -1,4 +1,5 @@
 # .gitignore
+.env
 tmp/*
 !tmp/.gitkeep
 recipients/*

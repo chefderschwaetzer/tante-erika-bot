@@ -1,2 +1,7 @@
-/recipients
-/tmp
+# .gitignore
+tmp/*
+!tmp/.gitkeep
+recipients/*
+!recipients/.gitkeep
+.DS_Store
+node_modules/

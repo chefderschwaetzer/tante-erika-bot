@@ -1,17 +1,30 @@
 #!/bin/bash
 
-ORDNER="../recipients"
-BILD_DATEI="../tmp/reddit_bot_bild.jpg"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+PROJECT_ROOT="$SCRIPT_DIR/.."
+ENV_FILE="$PROJECT_ROOT/.env"
+
+if [ -f "$ENV_FILE" ]; then
+    source "$ENV_FILE"
+fi
+
+RECIPIENTS_DIR="$PROJECT_ROOT/recipients"
+BILD_DATEI="$PROJECT_ROOT/tmp/reddit_bot_bild.jpg"
 
 if [ ! -f "$BILD_DATEI" ]; then
     echo "❌ STOPP: Es liegt kein Bild unter $BILD_DATEI bereit."
-    echo "Bitte führe erst ./fetch_reddit.sh aus!"
+    echo "Bitte führe erst fetch_reddit.sh aus!"
     exit 1
 fi
 
 echo "Bild gefunden. Starte Versand..."
 
-for DATEI in "$ORDNER"/*.txt
+if [ -z "$(ls -A $RECIPIENTS_DIR/*.txt 2>/dev/null)" ]; then
+   echo "⚠️ Keine Empfänger-Dateien (.txt) in $RECIPIENTS_DIR gefunden."
+   exit 0
+fi
+
+for DATEI in "$RECIPIENTS_DIR"/*.txt
 do
   [ -e "$DATEI" ] || continue
 
@@ -21,11 +34,16 @@ do
 
   NAME=$(basename "$DATEI" .txt)
 
-  echo "➡️ Sende an: $NAME ($NUMMER)..."
+  echo "➡️ Sende an: $NAME..."
 
-  /usr/bin/npx mudslide send-image "$NUMMER@s.whatsapp.net" "$BILD_DATEI"
+  npx mudslide send-image "$NUMMER@s.whatsapp.net" "$BILD_DATEI"
   
-  sleep $((8 + RANDOM % 5))
+  BASE_SLEEP=${SLEEP_MIN:-8}
+  RAND_SLEEP=${SLEEP_RANDOM:-5}
+  ACTUAL_SLEEP=$((BASE_SLEEP + RANDOM % RAND_SLEEP))
+  
+  echo "   ... warte ${ACTUAL_SLEEP}s"
+  sleep $ACTUAL_SLEEP
 done
 
 echo "✅ Alle Nachrichten versendet."

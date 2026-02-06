@@ -1,11 +1,12 @@
 #!/bin/bash
 
-cd /home/mortem/dev/tante_erika_bot/src
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 echo "🤖 Bot wird gestartet..."
 echo "--------------------------------"
 
-./fetch_reddit.sh
+"$SCRIPT_DIR/fetch_reddit.sh"
+
 if [ $? -ne 0 ]; then
     echo "❌ Fehler beim Download. Breche ab."
     read -p "Drücke Enter zum Schließen..."
@@ -15,7 +16,7 @@ fi
 echo "--------------------------------"
 echo "Bild erfolgreich geladen."
 
-./send.sh
+"$SCRIPT_DIR/send.sh"
 
 echo "--------------------------------"
 echo "✅ Alles erledigt."

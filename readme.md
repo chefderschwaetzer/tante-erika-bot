@@ -16,31 +16,23 @@ Perfekt, um der Verwandtschaft zuvorzukommen oder einfach täglich Freude (und K
 
 ## 🚀 Voraussetzungen
 
-Das Skript wurde für **Linux** (getestet auf CachyOS/Arch) entwickelt, läuft aber auch auf **macOS**.
-
 Du benötigst folgende installierte Tools:
 * `curl` (Download)
 * `jq` (JSON Parsing)
 * `nodejs` & `npm` (Runtime für den WhatsApp-Client)
+* `Mudslide`
 
-**Installation unter Arch Linux / CachyOS:**
-```bash
-sudo pacman -S jq curl nodejs npm
+## WhatsApp login
+Damit das skript funktioniert muss einmal initial mit mudslide ein login durchgeführt werden
 
-Installation unter Debian / Ubuntu:
-Bash
-
-sudo apt install jq curl nodejs npm
-```
-# .env Konfiguration
-
-# Welches Subreddit soll genutzt werden? (ohne "r/")
+## .env Konfiguration
+### Welches Subreddit soll genutzt werden? (ohne "r/")
 SUBREDDIT=grussbilder
 
-# User-Agent für den Reddit-Zugriff (Verhindert Blockierung)
+### User-Agent für den Reddit-Zugriff (Verhindert Blockierung)
 USER_AGENT="LinuxBot/1.0"
 
-# Wartezeit zwischen Nachrichten in Sekunden (Spam-Schutz)
-# Beispiel: Wartet mindestens 8s + zufällig 0-5s
+### Wartezeit zwischen Nachrichten in Sekunden (Spam-Schutz)
+### Beispiel: Wartet mindestens 8s + zufällig 0-5s
 SLEEP_MIN=8
 SLEEP_RANDOM=5
